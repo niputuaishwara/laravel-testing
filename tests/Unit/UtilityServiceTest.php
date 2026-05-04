@@ -1,38 +1,76 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Services\UtilityService;
 
 class UtilityServiceTest extends TestCase
 {
-    public function test_count_words()
+    protected $service;
+
+    protected function setUp(): void
     {
-        $service = new UtilityService();
-        $this->assertEquals(4, $service->countWords("My name is Joko"));
+        parent::setUp();
+        $this->service = new UtilityService();
     }
 
-    public function test_km_to_miles()
+    /** @test */
+    public function test_reverse_string()
     {
-        $service = new UtilityService();
-        $this->assertEquals(6.2, $service->kilometersToMiles(10));
+        $this->assertEquals("olah", $this->service->reverseString("halo"));
+        $this->assertEquals("", $this->service->reverseString(""));
     }
-    public function test_uppercase()
-{
-    $service = new UtilityService();
-    $this->assertEquals("HELLO", $service->toUpperCase("hello"));
-}
 
-public function test_luas_persegi()
-{
-    $service = new UtilityService();
-    $this->assertEquals(25, $service->luasPersegi(5));
-}
+    /** @test */
+    public function test_calculate_discount()
+    {
+        $this->assertEquals(90000, $this->service->calculateDiscount(100000, 10));
+        $this->assertEquals(100000, $this->service->calculateDiscount(100000, 0));
+        $this->assertEquals(0, $this->service->calculateDiscount(100000, 100));
+    }
 
-public function test_is_even()
-{
-    $service = new UtilityService();
-    $this->assertTrue($service->isEven(4));
-}
+    /** @test */
+    public function test_calculate_discount_invalid()
+    {
+        $this->assertEquals("Input tidak valid", $this->service->calculateDiscount("abc", 10));
+        $this->assertEquals("Diskon tidak valid", $this->service->calculateDiscount(100000, 150));
+    }
+
+    /** @test */
+    public function test_to_upper_case()
+    {
+        $this->assertEquals("HALO", $this->service->toUpperCase("halo"));
+    }
+
+    /** @test */
+    public function test_luas_persegi()
+    {
+        $this->assertEquals(25, $this->service->luasPersegi(5));
+    }
+
+    /** @test */
+    public function test_is_even()
+    {
+        $this->assertTrue($this->service->isEven(2));
+        $this->assertFalse($this->service->isEven(3));
+    }
+
+    /** @test */
+    public function test_sha256_digest()
+    {
+        $this->assertEquals(
+            hash('sha256', 'test'),
+            $this->service->sha256Digest('test')
+        );
+    }
+
+    /** @test */
+    public function test_md5_digest()
+    {
+        $this->assertEquals(
+            hash('md5', 'test'),
+            $this->service->md5Digest('test')
+        );
+    }
 }

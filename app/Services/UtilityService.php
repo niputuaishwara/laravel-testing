@@ -4,17 +4,22 @@ namespace App\Services;
 
 class UtilityService
 {
-    public function countWords($text)
+    public function reverseString($text)
     {
-        return str_word_count(trim($text));
+        return strrev($text);
     }
 
-    public function kilometersToMiles($km)
+    public function calculateDiscount($harga, $diskon)
     {
-        if (!is_numeric($km)) {
+        if (!is_numeric($harga) || !is_numeric($diskon)) {
             return "Input tidak valid";
         }
-        return $km * 0.62;
+
+        if ($diskon < 0 || $diskon > 100) {
+            return "Diskon tidak valid";
+        }
+
+        return $harga - ($harga * $diskon / 100);
     }
 
     public function sha256Digest($text)
@@ -26,18 +31,19 @@ class UtilityService
     {
         return hash('md5', $text);
     }
+
     public function toUpperCase($text)
-{
-    return strtoupper($text);
-}
+    {
+        return strtoupper($text);
+    }
 
-public function luasPersegi($sisi)
-{
-    return $sisi * $sisi;
-}
+    public function luasPersegi($sisi)
+    {
+        return $sisi * $sisi;
+    }
 
-public function isEven($angka)
-{
-    return $angka % 2 == 0;
-}
+    public function isEven($angka)
+    {
+        return $angka % 2 == 0;
+    }
 }
