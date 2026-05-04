@@ -35,6 +35,7 @@ class UtilityServiceTest extends TestCase
     {
         $this->assertEquals("Input tidak valid", $this->service->calculateDiscount("abc", 10));
         $this->assertEquals("Diskon tidak valid", $this->service->calculateDiscount(100000, 150));
+        $this->assertEquals("Diskon tidak valid", $this->service->calculateDiscount(100000, -10));
     }
 
     /** @test */
@@ -48,12 +49,25 @@ class UtilityServiceTest extends TestCase
     {
         $this->assertEquals(25, $this->service->luasPersegi(5));
     }
+    
+    /** @test */
+    public function test_luas_persegi_invalid()
+    {
+        $this->assertEquals("Input tidak Valid", $this->service->luasPersegi(-5));
+    }
 
     /** @test */
     public function test_is_even()
     {
-        $this->assertTrue($this->service->isEven(2));
-        $this->assertFalse($this->service->isEven(3));
+        $this->assertTrue($this->service->isEven(4));
+        $this->assertFalse($this->service->isEven(5));
+        $this->assertFalse($this->service->isEven(-5));
+    }
+
+    /** @test */
+    public function test_is_even_invalid()
+    {
+        $this->assertEquals("Input tidak Valid", $this->service->isEven(5,2));
     }
 
     /** @test */
